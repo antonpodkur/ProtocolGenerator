@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebUi
 {
@@ -26,7 +28,11 @@ namespace WebUi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            var connectionString = Configuration.GetConnectionString("Default");
+            
+            services.AddDbContext<ProtocolGeneratorDbContext>(options => 
+                options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString), b=> b.MigrationsAssembly("WebUi"))
+                );
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
