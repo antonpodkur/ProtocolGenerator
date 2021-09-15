@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
+using Infrastructure.Configurations;
 
 namespace Infrastructure
 {
@@ -28,22 +28,8 @@ namespace Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<User>()
-                .HasData(
-                    new User()
-                    {
-                        Id = 2,
-                        Email = "johndoe@gmail.com",
-                        Password = "123456"
-                    },
-                    new User()
-                    {
-                        Id = 1,
-                        Email = "janedoe@gmail.com",
-                        Password = "123456"
-                    }
-                );
+            
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }
