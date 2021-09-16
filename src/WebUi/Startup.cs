@@ -14,6 +14,9 @@ using Microsoft.OpenApi.Models;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
+using Infrastructure.Repositories;
+using Infrastructure.Repositories.Interfaces;
+
 namespace WebUi
 {
     public class Startup
@@ -34,6 +37,8 @@ namespace WebUi
                 options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString), b=> b.MigrationsAssembly("WebUi"))
                 );
             services.AddControllers();
+            services.AddScoped<IUserRepository,UserRepository>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebUi", Version = "v1" });
