@@ -1,3 +1,4 @@
+using System;
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Repositories.Interfaces;
@@ -26,6 +27,28 @@ namespace WebUi.Controllers
 
             User result = _repository.Create(user);
             return Created("Success", result);
+        }
+        
+        //TODO finish creating login methon (BCrypt verify problem)
+        [HttpPost("login")]
+        public IActionResult Login(LoginDto dto)
+        {
+            var user = _repository.GetByEmail(dto.Email);
+            Console.WriteLine($"Dto {dto.Email} {dto.Password}");
+            Console.WriteLine($"User {user.Email} {user.Password}");
+
+            if (user == null)
+            {
+                return BadRequest(new {message = "Invalid Credentials"});
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+            {
+                Console.WriteLine(BCrypt.Net.BCrypt.Verify(dto.Password, user.Password));
+                return BadRequest(new {message = "Invalid Credentials"});
+            }
+            
+            return Ok(user);
         }
     }
 }

@@ -14,9 +14,6 @@ using Microsoft.OpenApi.Models;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-using Infrastructure.Repositories;
-using Infrastructure.Repositories.Interfaces;
-
 namespace WebUi
 {
     public class Startup
@@ -31,13 +28,9 @@ namespace WebUi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("Default");
+            services.AddInfrastructure(Configuration);
             
-            services.AddDbContext<ProtocolGeneratorDbContext>(options => 
-                options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString), b=> b.MigrationsAssembly("WebUi"))
-                );
             services.AddControllers();
-            services.AddScoped<IUserRepository,UserRepository>();
             
             services.AddSwaggerGen(c =>
             {
