@@ -2,14 +2,16 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebUi.Migrations
 {
     [DbContext(typeof(ProtocolGeneratorDbContext))]
-    partial class ProtocolGeneratorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210918103612_FixedPasswordSizeMigration")]
+    partial class FixedPasswordSizeMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

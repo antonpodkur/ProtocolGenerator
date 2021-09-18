@@ -14,7 +14,7 @@ namespace Infrastructure.Configurations
             builder.HasIndex(e => e.Id).IsUnique();
             builder.Property(s => s.Email).IsRequired(true).HasMaxLength(50);
             builder.HasIndex(e => e.Email).IsUnique();
-            builder.Property(s => s.Password).IsRequired(true).HasMaxLength(50);
+            builder.Property(s => s.Password).IsRequired(true).HasMaxLength(255);
             
             builder.HasData(
                     new User()

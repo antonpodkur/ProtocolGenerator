@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Entities
 {
-    // [Index(nameof(Id), nameof(Email), IsUnique = true)]
     public class User
     {
         public int Id { get; set; }

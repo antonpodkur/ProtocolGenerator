@@ -3,6 +3,8 @@ using Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Repositories.Interfaces;
 using WebUi.Dtos;
+using BC = BCrypt.Net.BCrypt;
+
 
 namespace WebUi.Controllers
 {
@@ -22,7 +24,7 @@ namespace WebUi.Controllers
             var user = new User()
             {
                 Email = dto.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+                Password = BC.HashPassword(dto.Password)
             };
 
             User result = _repository.Create(user);
@@ -34,17 +36,15 @@ namespace WebUi.Controllers
         public IActionResult Login(LoginDto dto)
         {
             var user = _repository.GetByEmail(dto.Email);
-            Console.WriteLine($"Dto {dto.Email} {dto.Password}");
-            Console.WriteLine($"User {user.Email} {user.Password}");
 
             if (user == null)
             {
                 return BadRequest(new {message = "Invalid Credentials"});
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+            if (!BC.Verify(dto.Password, user.Password))
             {
-                Console.WriteLine(BCrypt.Net.BCrypt.Verify(dto.Password, user.Password));
+                Console.WriteLine(BC.Verify(dto.Password.ToString(), user.Password));
                 return BadRequest(new {message = "Invalid Credentials"});
             }
             
