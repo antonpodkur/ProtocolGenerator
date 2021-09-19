@@ -6,5 +6,6 @@ namespace Infrastructure.Repositories.Interfaces
     {
         User Create(User user);
         User GetByEmail(string email);
+        User GetById(int id);
     }
 }

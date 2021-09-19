@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using WebUi.Helpers;
 
 namespace WebUi
 {
@@ -28,7 +29,11 @@ namespace WebUi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            
             services.AddInfrastructure(Configuration);
+            
+            services.AddScoped<JwtService>();
             
             services.AddControllers();
             
@@ -51,6 +56,13 @@ namespace WebUi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options
+                .WithOrigins(new []{"http://localhost:3000"})
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+            );
 
             app.UseAuthorization();
 
